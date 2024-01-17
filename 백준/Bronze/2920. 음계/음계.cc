@@ -17,3 +17,30 @@ int main() {
 
     return 0;
 }
+
+// #include <iostream>
+// #include <vector>
+
+// using namespace std;
+
+// int main() {
+//     int v[8];
+//     int asc_cnt = 0;
+//     int des_cnt = 0;
+
+//     for(int i = 0; i < 8; i++)
+//     {
+//         cin >> v[i];
+
+//         if(v[i] == i + 1)
+//             asc_cnt++;
+//         else if(v[i] == 8 - i)
+//             des_cnt++;
+//     }
+
+//     if(asc_cnt == 8) cout << "ascending" << endl;
+//     else if(des_cnt == 8) cout << "descending" << endl;
+//     else cout << "mixed" << endl;
+
+//     return 0;
+// }
