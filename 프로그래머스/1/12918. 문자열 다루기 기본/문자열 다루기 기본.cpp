@@ -15,12 +15,12 @@ bool solution(string s) {
     }
     else
     {
-        for(int i = 0; i < s.size(); i++)
+        for(char temp_ch : s)
         {
-            if((int)s[i] < 47 || (int)s[i] > 57)
+            if(!(isdigit(temp_ch)))
             {
                 answer = false;
-                break;                
+                break;
             }
         }
     }    
