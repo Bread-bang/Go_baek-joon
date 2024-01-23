@@ -5,12 +5,16 @@ using namespace std;
 
 bool solution(int x) {
     bool answer = true;
-    string temp = to_string(x);
+    int temp = x;
     int sum = 0;
-    for(int i = 0; i < temp.size(); i++)
-        sum += (int)(temp[i] - '0');
-
-    if(x % sum != 0) answer = false;
+    
+    while(temp > 0)
+    {
+        sum += (temp % 10);
+        temp /= 10;
+    }
+    
+    answer = (x % sum == 0) ? true : false;
         
     return answer;
 }
