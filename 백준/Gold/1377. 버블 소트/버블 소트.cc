@@ -22,22 +22,16 @@ int main()
         arr.push_back(make_pair(num, i));
     }
 
-    vector<pair<int, int> > sorted_arr(arr);
-    sort(sorted_arr.begin(), sorted_arr.end());
-
-    for(int i = 0; i < N; i++)
-        sorted_arr[i].second = i;
-    
     sort(arr.begin(), arr.end());
 
-    int max = arr[0].second - sorted_arr[0].second;
+    int max = arr[0].second;
     int diff_idx = 0;
     for(int i = 1; i < N; i++)
     {
-        diff_idx = arr[i].second - sorted_arr[i].second;
+        diff_idx = arr[i].second - i;
         max = (max > diff_idx) ? max : diff_idx;
     }
-    
+
     cout << max + 1 << "\n";
 
     return 0;
