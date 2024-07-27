@@ -1,40 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include <algorithm>
 
 using namespace std;
 
-vector<vector<int>> graph;
+vector<vector<int> > adjacent_list;
 vector<bool> visited;
 
-int dfs(int v)
+void DFS(int node);
+
+int main()
 {
-    stack<int> s;
-    s.push(v);
-    visited[v] = true;
-
-    while(!s.empty())
-    {
-        int current_node = s.top();
-        s.pop();
-        
-        for(int next_node : graph[current_node])
-        {
-            if(!visited[next_node])
-            {
-                visited[next_node] = true;
-                s.push(current_node);
-                s.push(next_node);
-                break;
-            }
-        }
-    }
-
-    return 1;
-}
-
-int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
@@ -42,30 +18,49 @@ int main(){
     int N, M;
     cin >> N >> M;
 
-    graph.resize(N + 1); // 0은 없는 셈 칠거니까
-    visited.resize(N + 1);
+    adjacent_list.resize(N + 1);
+    visited.resize(N + 1, false);
 
-    int targetNode, linkingNode;
+    int idx, val;
     for(int i = 0; i < M; i++)
     {
-        cin >> targetNode >> linkingNode;
-        graph[targetNode].push_back(linkingNode);
-        graph[linkingNode].push_back(targetNode);
+        cin >> idx >> val;
+        adjacent_list[idx].push_back(val);
+        adjacent_list[val].push_back(idx);
     }
 
-    fill(visited.begin(), visited.end(), false);
-
-    for(int i = 1; i <= N; i++)
-        sort(graph[i].begin(), graph[i].end());
-    
-    int cnt = 0;
+    int count = 0;
     for(int i = 1; i <= N; i++)
     {
         if(!visited[i])
-            cnt += dfs(i);
+        {
+            DFS(i);
+            count++;
+        }
     }
 
-    cout << cnt << "\n";
+    cout << count << "\n";
 
     return 0;
+}
+
+void DFS(int node)
+{
+    stack<int> s;
+    s.push(node);
+    visited[node] = true;
+    
+    while(!s.empty())
+    {
+        int currentNode = s.top();
+        s.pop();
+        for(int i = 0; i < adjacent_list[currentNode].size(); i++)
+        {
+            if(!visited[adjacent_list[currentNode][i]])
+            {
+                s.push(adjacent_list[currentNode][i]);
+                visited[adjacent_list[currentNode][i]] = true;
+            }
+        }
+    }
 }
