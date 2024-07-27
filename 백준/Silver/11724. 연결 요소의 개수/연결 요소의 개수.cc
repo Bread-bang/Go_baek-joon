@@ -1,13 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <stack>
 
 using namespace std;
 
+void DFS(int node);
+
 vector<vector<int> > adjacent_list;
 vector<bool> visited;
-
-void DFS(int node);
 
 int main()
 {
@@ -21,10 +20,11 @@ int main()
     adjacent_list.resize(N + 1);
     visited.resize(N + 1, false);
 
-    int idx, val;
     for(int i = 0; i < M; i++)
     {
+        int idx, val;
         cin >> idx >> val;
+
         adjacent_list[idx].push_back(val);
         adjacent_list[val].push_back(idx);
     }
@@ -40,27 +40,19 @@ int main()
     }
 
     cout << count << "\n";
-
     return 0;
 }
 
 void DFS(int node)
 {
-    stack<int> s;
-    s.push(node);
-    visited[node] = true;
+    if(visited[node])
+        return ;
     
-    while(!s.empty())
+    visited[node] = true;
+
+    for(int i = 0; i < adjacent_list[node].size(); i++)
     {
-        int currentNode = s.top();
-        s.pop();
-        for(int i = 0; i < adjacent_list[currentNode].size(); i++)
-        {
-            if(!visited[adjacent_list[currentNode][i]])
-            {
-                s.push(adjacent_list[currentNode][i]);
-                visited[adjacent_list[currentNode][i]] = true;
-            }
-        }
+        if(!visited[adjacent_list[node][i]])
+            DFS(adjacent_list[node][i]);
     }
 }
