@@ -1,90 +1,85 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#include <stack>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
-int N, M, V;
-vector<vector<int>> graph;
+void DFS(int V);
+void BFS(int V);
+
+vector<vector<int> > list;
 vector<bool> visited;
 
-void dfs(int v)
+int main()
 {
-    fill(visited.begin(), visited.end(), false);
-    stack<int> s;
-    s.emplace(v);
-    cout << v << " ";
-    visited[v] = true;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    while(!s.empty())
-    {
-        int current_node = s.top();
-        s.pop();
-
-        for(int i = 0; i < graph[current_node].size(); i++)
-        {
-            int next_node = graph[current_node][i];
-
-            if(visited[next_node] == false)
-            {
-                cout << next_node << " ";
-                visited[next_node] = true;
-                s.emplace(current_node);
-                s.emplace(next_node);
-                break;
-            }
-        }
-    }
-    cout << "\n";
-}
-
-void bfs(int v)
-{
-    fill(visited.begin(), visited.end(), false);
-    queue<int> q;
-    q.emplace(v);
-    visited[v] = true;
-
-    while(!q.empty())
-    {
-        int current_node = q.front();
-        q.pop();
-        cout << current_node << " ";
-
-        for(int i = 0; i < graph[current_node].size(); i++)
-        {
-            int next_node = graph[current_node][i];
-            if(visited[next_node] == false)
-            {
-                q.emplace(next_node);
-                visited[next_node] = true;
-            }
-        }
-    }
-    cout << "\n";
-}
-
-int main() {
-
+    int N, M, V;
     cin >> N >> M >> V;
-    graph.resize(N + 1);
-    visited.resize(N + 1);
 
-    int A, B;
-    for(int i = 0; i < M; i++)
+    list.resize(N + 1);
+    visited.resize(N + 1, false);
+
+    int idx, val;
+    for(int i = 1; i <= M; i++)
     {
-        cin >> A >> B;
-        graph[A].emplace_back(B);
-        graph[B].emplace_back(A);
+        cin >> idx >> val;
+        list[idx].push_back(val);
+        list[val].push_back(idx);
     }
 
     for(int i = 1; i <= N; i++)
-        sort(graph[i].begin(), graph[i].end());
+        sort(list[i].begin(), list[i].end());
 
-    dfs(V);
-    bfs(V);
+    DFS(V);
+    cout << "\n";
+
+    BFS(V);
+    cout << "\n";
 
     return 0;
+}
+
+void DFS(int V)
+{
+    cout << V << " ";
+    
+    if(visited[V])
+        return ;
+    
+    visited[V] = true;
+
+    for(int num : list[V])
+    {
+        if(!visited[num])
+            DFS(num);
+    }
+}
+
+void BFS(int V)
+{
+    fill(visited.begin(), visited.end(), false);
+    queue<int> q;
+
+    q.push(V);
+    visited[V] = true;
+
+    while(!q.empty())
+    {
+        int currentNode = q.front();
+        cout << currentNode << " ";
+        q.pop();
+
+        for(int num : list[currentNode])
+        {
+            if(!visited[num])
+            {
+                q.push(num);
+                visited[num] = true;
+            }
+        }
+    }
 }
