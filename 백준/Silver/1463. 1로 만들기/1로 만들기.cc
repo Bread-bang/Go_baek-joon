@@ -1,42 +1,27 @@
 #include <iostream>
-#include <queue>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int main(){
-
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
     int N;
     cin >> N;
+    vector<int> dp(N + 1, 0);
 
-    queue<pair<int, int> > q;
+    dp[1] = 0;
 
-    q.push(make_pair(N, 0));
-    while(!q.empty())
+    for(int i = 2; i < N + 1; i++)
     {
-        int cur_node = q.front().first;
-        int cur_count = q.front().second;
-
-        q.pop();
-
-        if(cur_node == 1)
-        {
-            cout << cur_count << "\n";
-            break;
-        }
-
-        if(cur_node % 3 == 0)
-            q.push(make_pair(cur_node / 3, cur_count + 1));
+        dp[i] = dp[i - 1] + 1;
         
-        if(cur_node % 2 == 0)
-            q.push(make_pair(cur_node / 2, cur_count + 1));
-        
-        q.push(make_pair(--cur_node, cur_count + 1));
+        if(i % 3 == 0)
+            dp[i] = min(dp[i], dp[i / 3] + 1);
+        if(i % 2 == 0)
+            dp[i] = min(dp[i], dp[i / 2] + 1);
     }
 
+    cout << dp[N] << "\n";
 
     return 0;
 }
