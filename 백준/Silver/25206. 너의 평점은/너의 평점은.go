@@ -1,16 +1,29 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
+	
+type Score struct {
+	objectName string
+	credit float32
+	grade string
+}
 
 func main() {
-	var credit float32
-	var objectName string
-	var grade string
-	
+	var sc Score
 	var totalCredit float32
 	var totalGrade float32
+
+	m := map[string]float32{
+		"A+": 4.5,
+		"A0": 4.0,
+		"B+": 3.5,
+		"B0": 3.0,
+		"C+": 2.5,
+		"C0": 2.0,
+		"D+": 1.5,
+		"D0": 1.0,
+		"F": 0.0,
+	}
 	
 	N := 20
 
@@ -19,38 +32,13 @@ func main() {
 			break
 		}
 
-		fmt.Scanln(&objectName, &credit, &grade)
-		
-		switch grade {
-		case "A+":
-			totalGrade += credit * 4.5
-			totalCredit += credit
-		case "A0":
-			totalGrade += credit * 4.0
-			totalCredit += credit
-		case "B+":
-			totalGrade += credit * 3.5
-			totalCredit += credit
-		case "B0":
-			totalGrade += credit * 3.0
-			totalCredit += credit
-		case "C+":
-			totalGrade += credit * 2.5
-			totalCredit += credit
-		case "C0":
-			totalGrade += credit * 2.0
-			totalCredit += credit
-		case "D+":
-			totalGrade += credit * 1.5
-			totalCredit += credit
-		case "D0":
-			totalGrade += credit * 1.0 
-			totalCredit += credit
-		case "F":
-			totalGrade += credit * 0.0
-			totalCredit += credit
-		}
+		fmt.Scanln(&sc.objectName, &sc.credit, &sc.grade)
 
+		if sc.grade != "P" {
+			totalGrade += sc.credit * m[sc.grade]
+			totalCredit += sc.credit
+		}
+		
 		N--
 	}
 	if totalCredit == 0 {
