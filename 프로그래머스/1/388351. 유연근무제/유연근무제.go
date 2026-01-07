@@ -40,12 +40,9 @@ func addTenMinutes(schedules int) int {
 	hour := schedules / 100
 	minute := schedules % 100
 
-	if minute+10 >= 60 {
-		hour += 1
-		minute = (minute + 10) % 60
-	} else {
-		minute += 10
-	}
+	minute += 10
+	hour += minute / 60
+	minute %= 60
 
 	return hour*100 + minute
 }
